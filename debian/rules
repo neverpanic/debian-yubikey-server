@@ -1,0 +1,28 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE=1
+
+export DH_GOPKG := github.com/digintLab/yubikey-server
+export GOPATH := ${CURDIR}/_build
+
+%:
+	dh $@ --buildsystem=golang --with=golang
+
+override_dh_auto_build:
+	mkdir -p ${CURDIR}/_build/src/${DH_GOPKG}
+	cp -av ${CURDIR}/*.go ${CURDIR}/_build/src/${DH_GOPKG}/
+	cd ${CURDIR}/_build/src/${DH_GOPKG} && go get -v
+	cd ${CURDIR}/_build/src/${DH_GOPKG} && go build -v
+	ls -lasR ${CURDIR}/_build
+
+override_dh_auto_test:
+	cd ${CURDIR}/_build/src/${DH_GOPKG} && go test -v
+
+override_dh_auto_install:
+	dh_auto_install -O--buildsystem=golang
+	install -m 0755 -d ${CURDIR}/debian/yubikey-server/usr/bin
+	install -m 0755 ${CURDIR}/_build/bin/yubikey-server ${CURDIR}/debian/yubikey-server/usr/bin/yubikey-server
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf ${CURDIR}/_build

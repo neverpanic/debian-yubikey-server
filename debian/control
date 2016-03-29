@@ -1,0 +1,31 @@
+Source: yubikey-server
+Section: devel
+Priority: extra
+Maintainer: Clemens Lang <neverpanic@gmail.com>
+Uploaders: Clemens Lang <neverpanic@gmail.com>
+Build-Depends: ca-certificates,
+               debhelper (>= 9),
+               dh-golang,
+               golang-go,
+               git
+Standards-Version: 3.9.6
+Homepage: https://github.com/digintLab/yubikey-server
+Vcs-Browser: https://github.com/digitLab/yubikey-server
+Vcs-Git: git://github.com/digintLab/yubikey-server.git
+XS-Go-Import-Path: github.com/digintLab/yubikey-server
+
+Package: yubikey-server
+Architecture: any
+Built-Using: ${misc:Built-Using}
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Description: Go implementation of yubikey server to be able to run your own server on network who can't have access to the official servers.
+ Description Go implementation of yubikey server to be able to run your
+ own server on network who can't have access to the official servers.
+ .
+ Store all information inside a sqlite database, need to create other
+ connectors for different backend
+ .
+ Follows the yubikey protocol in version 2.0
+ (https://code.google.com/p/yubikey-val-server-php/wiki/ValidationProtocolV20)
+ to implement this server
